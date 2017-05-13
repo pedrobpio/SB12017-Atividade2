@@ -20,6 +20,8 @@ long long numero(Nodo* a){
     return Nodo_Get_Value(a);
 }
 
+long long (*list_of_operations[4]) (long long, long long) = {adicionar, subtrair, multiplicar, dividir};
+
 long long Interpret(char* expressao){
     Pilha* pilha = New_Pilha();
 
