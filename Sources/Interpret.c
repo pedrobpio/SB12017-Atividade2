@@ -38,6 +38,29 @@ long long multiplicar(long long a, long long b){
 long long numero(Nodo* a){
     return Nodo_Get_Value(a);
 }
+
+
+int classifica_Op(char letra, char letra_atual){
+    int prioLetra, prioLetra_atual;
+
+  else if(letra == '*' || letra == '/')
+    prioLetra = 2;
+  else if(letra == '+' || letra == '-')
+    prioLetra = 1;
+  else if(letra == '(')
+    prioLetra = 3;
+ 
+  
+  else if(letra_atual == '*' || letra_atual == '/')
+    prioLetra_atual = 2;
+  else if(letra_atual == '+' || letra_atual == '-')
+    prioLetra_atual = 1;
+  else if(letra_atual == '(')
+    prioLetra_atual = 0;
+
+    return (prioLetra > prioLetra_atual)
+}
+
 //-----------------------------------------------
 
 
@@ -55,6 +78,53 @@ long long Interpret(char* expressao){
 *   AQUI
 *
 ********************************************/
+// transforma de infixa para posfixa (notacao polonesa inversa)
+    PilhaChar* pilha_notacao;
+    pilha_notacao = New_PilhaChar();
+    PilhaChar_Push(pilha_notacao, New_NodoChar('('));
+    int k = 0, l = 0; // contadores basicos
+    char letra, letra_atual;
+    char nova_expressao[256];
+    do{
+        letra = expressao[k];
+        
+        if (letra >= '0' && letra <= '9'){
+            nova_expressao[l] = letra;
+            l++;
+        }
+        else if (letra == '('){
+            PilhaChar_Push(pilha_notacao, New_NodoChar('('));
+        }
+        else if (letra == ')' || letra == '\0'){
+            do{ //enquanto nao encontra o parenteses correspondente
+                letra_atual = PilhaChar_Pop(pilha_notacao);
+                if (letra_atual !='('){
+                    nova_expressao[l] = letra;
+                    l++;
+                }
+            }while(letra != '(');
+        }
+        else if (letra =='+' || letra =='*' || letra =='-' || letra =='/'){
+            for(;;){
+                letra_atual = PilhaChar_Pop(pilha_notacao);
+                if (classifica_Op(letra, letra_atual)){
+                    PilhaChar_Push(pilha_notacao, New_NodoChar(letra_atual));
+                    PilhaChar_Push(pilha_notacao, New_NodoChar(letra);
+                    break;
+                } 
+                else{
+                    nova_expressao[l] = letra_atual;
+                    l++;
+                }
+            }
+        }
+    k++;
+    }while(letra !='\0');
+
+
+
+//*****************************************
+
     Pilha_Push(pilha, New_Nodo(5,VAL));
     Pilha_Push(pilha, New_Nodo(3,VAL));
     Pilha_Push(pilha, New_Nodo(5,ADD));
